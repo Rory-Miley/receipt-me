@@ -33,7 +33,17 @@ def extract_price(text):
     prices = re.findall(price_pattern, text)
     
     # Return the first valid price (if any)
-    return prices[0] if prices else None
+    return prices[-1] if prices else None
+
+def extract_date(text):
+    # Regex pattern to match different date formats
+    date_pattern = r'(\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\b\w{3,9} \d{1,2}, \d{4}\b|\d{4}-\d{2}-\d{2})'
+
+    # Find all matches
+    dates = re.findall(date_pattern, text)
+    
+    # Return the first valid date (if any)
+    return dates[0] if dates else None
 
 ## MAIN----------------------------------------##
 # Load an image from user prompt
@@ -53,9 +63,12 @@ elif check_image_format(image_path) == 'unsupported':
 
 extracted_text = process_image(image_path)
 extracted_price = extract_price(extracted_text)
+extracted_date = extract_date(extracted_text)
 
 # Print the extracted text
 print("\n[EXTRACTED TEXT]")
 print(extracted_text)
 print("\n[EXTRACTED PRICE]")
 print(extracted_price)
+print("\n[EXTRACTED DATE]")
+print(extracted_date)
